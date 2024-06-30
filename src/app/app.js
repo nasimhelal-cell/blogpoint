@@ -1,23 +1,21 @@
 const express = require("express");
 const swaggerUI = require("swagger-ui-express");
 const YAML = require("yamljs");
-const routes = require("./routes");
+const globalRouter = require("./route");
+const globalMiddleware = require("./middleware");
+const globalError = require("./error");
 
 const swaggerDocs = YAML.load("./blogapi.yaml");
 
 const app = express();
-app.use(express.json());
-app.use(routes);
+app.use(globalMiddleware);
+app.use(globalRouter);
 
 app.get("/health", (_req, res) => {
   res.json({ message: "I am ok" });
 });
 
-app.get("/api/v1/articles", (req, res) => {
-  console.log(req.query);
-  console.log(req.url);
-});
-
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
+app.use(globalError);
 module.exports = app;

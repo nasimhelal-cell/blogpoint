@@ -1,16 +1,23 @@
-const routes = require("express").Router();
-const getAllArticle = require("../api/v1/article/controllers/getAllArticles");
-const createArticle = require("../api/v1/article/controllers/createArticle");
-const getSingleArticle = require("../api/v1/article/controllers/getSingleArticle");
-const UpdateArticleByPatch = require("../api/v1/article/controllers/UpdateArticleByPatch");
-const UpdateArticleByPut = require("../api/v1/article/controllers/UpdateArticleByPut");
+const router = require("express").Router();
+const { controllers: articleController } = require("../api/v1/article");
+const { controllers: userController } = require("../api/v1/user");
 
-routes.route("/api/v1/articles").get(getAllArticle).post(createArticle);
+// article related routes
+router
+  .route("/articles")
+  .get(articleController.getAllArticles)
+  .post(articleController.createArticle);
 
-routes
-  .route("/api/v1/articles/:id")
-  .get(getSingleArticle)
-  .patch(UpdateArticleByPatch)
-  .put(UpdateArticleByPut);
+router
+  .route("/articles/:id")
+  .get(articleController.getSingleArticle)
+  .patch(articleController.updateArticleByPatch)
+  .put(articleController.updateArticleByPut);
 
-module.exports = routes;
+// user related routes
+router
+  .route("/users")
+  .get(() => {})
+  .post(userController.createUser);
+
+module.exports = router;
