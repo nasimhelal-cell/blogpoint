@@ -1,5 +1,5 @@
-const status = require("./status");
+const STATUS = require("./status");
 
 module.exports = {
-  status,
+  STATUS,
 };

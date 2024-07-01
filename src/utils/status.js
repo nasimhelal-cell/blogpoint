@@ -1,9 +1,9 @@
-const status = {
-  success: { code: 200, message: "SUCCESS" },
-  created: { code: 201, message: "CREATED" },
-  badRequest: { code: 400, message: "BAD REQUEST" },
-  unAuthorized: { code: 401, message: "UNAUTHORIZED" },
-  notFound: { code: 404, message: "REQUESTED RESOURCE NOT FOUND" },
-  serverError: { code: 500, message: "INTERNAL SERVER ERROR" },
+const STATUS = {
+  success: { code: 200, error: "SUCCESS", message: "" },
+  created: { code: 201, error: "CREATED", message: "" },
+  badRequest: { code: 400, error: "BAD REQUEST", message: "" },
+  unAuthorized: { code: 401, error: "UNAUTHORIZED", message: "" },
+  notFound: { code: 404, error: "REQUESTED RESOURCE NOT FOUND", message: "" },
+  serverError: { code: 500, error: "INTERNAL SERVER ERROR", message: "" },
 };
-module.exports = status;
+module.exports = STATUS;

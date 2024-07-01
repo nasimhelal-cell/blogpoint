@@ -1,22 +1,17 @@
 const articleService = require("../../../../lib/article");
-const { status } = require("../../../../utils");
-
-function generateQueryString(queryObj) {
-  return Object.keys(queryObj)
-    .map(
-      (key) => encodeURIComponent(key) + "=" + encodeURIComponent(queryObj[key])
-    )
-    .join("&");
-}
+const query = require("../../../../utils/query");
+const { defaults } = require("../../../../config");
+const { STATUS } = require("../../../../utils");
 
 async function getAllArticles(req, res, next) {
-  const page = req.query.page || 1;
-  const limit = req.query.limit || 10;
-  const sortType = req.query.sort_type || "dsc";
-  const sortBy = req.query.sort_by || "updatedAt";
-  const search = req.query.search || "";
+  const page = req.query.page || defaults.page;
+  const limit = req.query.limit || defaults.limit;
+  const sortType = req.query.sort_type || defaults.sort_type;
+  const sortBy = req.query.sort_by || defaults.sort_by;
+  const search = req.query.search || defaults.search;
 
   try {
+    // find all articles from database based on filter parameters
     const articles = await articleService.findAllArticles({
       page,
       limit,
@@ -24,49 +19,54 @@ async function getAllArticles(req, res, next) {
       sortBy,
       search,
     });
-    const data = articles.map((article) => ({
-      ...article._doc,
-      link: `/articles/${article.id}`,
-    }));
 
+    // transformed articles data
+    const data = query.getTransformedItems({
+      items: articles,
+      path: "/articles",
+      selection: [
+        "id",
+        "title",
+        "cover",
+        "author",
+        "createdAt",
+        "updatedAt",
+        "link",
+      ],
+    });
+
+    // calculate totalArticles and totalPages
     const totalItems = await articleService.countArticle({ search });
     const totalPages = Math.ceil(totalItems / limit);
 
     // pagination
-    let pagination = {
+    const pagination = query.getPagination({
       page: +page,
       limit: +limit,
       totalItems,
       totalPages,
-    };
+    });
 
-    if (page > 1) {
-      pagination.prev = page - 1;
-    }
-    if (page < totalPages) {
-      pagination.next = +page + 1;
-    }
+    // HATE-OAS links
+    let links = query.generateHATE_OASLinks({
+      url: req.url,
+      path: req.path,
+      query: req.query,
+      page: +page,
+      hasNext: !!pagination.next,
+      hasPrev: !!pagination.prev,
+    });
 
-    // HATEOAS links
-    let links = {
-      self: req.url,
-    };
-    if (pagination.next) {
-      let next = generateQueryString({ ...req.query, page: +page + 1 });
-      links.next = `${req.path}?${next}`;
-    }
-    if (pagination.prev) {
-      let prev = generateQueryString({ ...req.query, page: page - 1 });
-      links.prev = `${req.path}?${prev}`;
-    }
-
-    res.status(status.success.code).json({
-      code: status.success.code,
-      message: status.success.message,
+    // response
+    const response = {
+      code: STATUS.success.code,
+      message: STATUS.success.error,
       data,
       pagination,
       links,
-    });
+    };
+
+    res.status(STATUS.success.code).json(response);
   } catch (error) {
     next(error);
   }

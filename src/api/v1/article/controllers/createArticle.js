@@ -1,5 +1,5 @@
 const articleService = require("../../../../lib/article");
-const { statusCode } = require("../../../../utils");
+const { STATUS } = require("../../../../utils");
 
 async function createArticle(req, res, next) {
   const { title, body, cover, status } = req.body;
@@ -10,13 +10,13 @@ async function createArticle(req, res, next) {
       body,
       cover,
       status,
-      author: req.user,
+      author: req.user.id,
     });
 
-    res.status(statusCode.created).json({
-      code: statusCode.created,
+    res.status(STATUS.created.code).json({
+      code: STATUS.created.code,
       message: "New article created successfully",
-      data: article,
+      data: { ...article._doc },
       links: {
         self: `/articles/${article.id}`,
         author: `/articles/${article.id}/author`,
