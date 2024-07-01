@@ -150,7 +150,7 @@ paths:
         schema:
           type: string
           example: 856h656895tj9
-      - name: exapnd
+      - name: expand
         in: query
         description: Expand by author and comment
         required: false
