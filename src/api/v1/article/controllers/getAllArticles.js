@@ -2,6 +2,7 @@ const articleService = require("../../../../lib/article");
 const query = require("../../../../utils/query");
 const { defaults } = require("../../../../config");
 const { STATUS } = require("../../../../utils");
+const { AppError } = require("../../../../app/errorHandler");
 
 async function getAllArticles(req, res, next) {
   const page = req.query.page || defaults.page;
@@ -11,6 +12,22 @@ async function getAllArticles(req, res, next) {
   const search = req.query.search || defaults.search;
 
   try {
+    // handle page condition
+    if (page <= 0) {
+      throw new AppError(
+        "Page value must be positive integer or greater than zero",
+        STATUS.badRequest.code
+      );
+    }
+
+    // handle limit condition
+    if (limit <= 0) {
+      throw new AppError(
+        "Limit value must be positive integer or greater than zero",
+        STATUS.badRequest.code
+      );
+    }
+
     // find all articles from database based on filter parameters
     const articles = await articleService.findAllArticles({
       page,

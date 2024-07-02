@@ -4,23 +4,27 @@ const ArticleSchema = new Schema(
   {
     title: {
       type: String,
-      minLength: [5, "Minimum title length will be 5"],
       required: [true, "Article title is required"],
     },
     body: {
       type: String,
+      required: [true, "Article description or body is required"],
     },
     cover: {
       type: String,
     },
     status: {
       type: String,
-      enum: ["draft", "published"],
+      enum: {
+        values: ["draft", "published"],
+        message: `Status can only be "draft" or "published"`,
+      },
       default: "draft",
     },
     author: {
       type: Schema.ObjectId,
       ref: "User",
+      required: [true, "Author is required"],
     },
     comment: {
       type: Schema.ObjectId,
