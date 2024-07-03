@@ -1,6 +1,5 @@
 const articleService = require("../../../../lib/article");
-const { STATUS } = require("../../../../utils");
-const catchAsync = require("../../../../utils/catchAsync");
+const { STATUS, catchAsync } = require("../../../../utils");
 
 const getSingleArticle = catchAsync(async (req, res) => {
   const id = req.params.id;

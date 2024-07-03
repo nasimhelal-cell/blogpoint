@@ -1,6 +1,5 @@
 const articleService = require("../../../../lib/article");
-const { STATUS } = require("../../../../utils");
-const catchAsync = require("../../../../utils/catchAsync");
+const { STATUS, catchAsync } = require("../../../../utils");
 
 const createArticle = catchAsync(async (req, res) => {
   const { title, body, cover, status } = req.body;

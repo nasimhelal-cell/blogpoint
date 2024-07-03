@@ -7,19 +7,14 @@ const createArticle = ({
   status = "draft",
   author,
 }) => {
-  try {
-    const article = new Article({
-      title,
-      body,
-      cover,
-      status,
-      author,
-    });
-
-    return article.save();
-  } catch (error) {
-    console.log(error.message);
-  }
+  const article = new Article({
+    title,
+    body,
+    cover,
+    status,
+    author,
+  });
+  return article.save();
 };
 
 module.exports = createArticle;
