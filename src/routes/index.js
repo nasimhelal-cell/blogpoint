@@ -12,7 +12,8 @@ router
   .route("/articles/:id")
   .get(articleController.getSingleArticle)
   .put(articleController.updateArticleAsWhole)
-  .patch(articleController.updateArticleByPatch);
+  .patch(articleController.updateArticleByPatch)
+  .delete(articleController.deleteSingleArticle);
 
 // user related routes
 router

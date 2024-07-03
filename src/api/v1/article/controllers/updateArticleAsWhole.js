@@ -15,14 +15,18 @@ const updateArticleAsWhole = catchAsync(async (req, res, next) => {
       ...req.body,
       author: req.user.id,
     };
+
     article = Object.assign(article, newData);
     await article.save();
+
     response = {
       code: STATUS.success.code,
       message: "article updated successfully",
       data: article,
     };
-  } else {
+  }
+  //if not find article then create a new article
+  else {
     let { title, body, cover, status } = req.body;
 
     article = await articleService.createArticle({
