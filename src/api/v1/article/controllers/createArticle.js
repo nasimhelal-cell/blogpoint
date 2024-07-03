@@ -1,30 +1,27 @@
 const articleService = require("../../../../lib/article");
 const { STATUS } = require("../../../../utils");
+const catchAsync = require("../../../../utils/catchAsync");
 
-async function createArticle(req, res, next) {
+const createArticle = catchAsync(async (req, res) => {
   const { title, body, cover, status } = req.body;
 
-  try {
-    let article = await articleService.createArticle({
-      title,
-      body,
-      cover,
-      status,
-      author: req.user.id,
-    });
+  let article = await articleService.createArticle({
+    title,
+    body,
+    cover,
+    status,
+    author: req.user.id,
+  });
 
-    res.status(STATUS.created.code).json({
-      code: STATUS.created.code,
-      message: "New article created successfully",
-      data: { ...article._doc },
-      links: {
-        self: `/articles/${article.id}`,
-        author: `/articles/${article.id}/author`,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-}
+  res.status(STATUS.created.code).json({
+    code: STATUS.created.code,
+    message: "New article created successfully",
+    data: { ...article._doc },
+    links: {
+      self: `/articles/${article.id}`,
+      author: `/articles/${article.id}/author`,
+    },
+  });
+});
 
 module.exports = createArticle;

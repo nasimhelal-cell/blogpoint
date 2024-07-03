@@ -3,13 +3,13 @@ const deleteSingleArticle = require("./deleteSingleArticle");
 const getAllArticles = require("./getAllArticles");
 const getSingleArticle = require("./getSingleArticle");
 const updateArticleByPatch = require("./UpdateArticleByPatch");
-const updateArticleByPut = require("./UpdateArticleByPut");
+const updateArticleAsWhole = require("./updateArticleAsWhole");
 
 module.exports = {
   createArticle,
   getSingleArticle,
   getAllArticles,
+  updateArticleAsWhole,
   updateArticleByPatch,
-  updateArticleByPut,
   deleteSingleArticle,
 };
