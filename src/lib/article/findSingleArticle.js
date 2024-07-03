@@ -1,27 +1,13 @@
 const { AppError } = require("../../app/errorHandler");
-const { Article } = require("../../model");
-const { STATUS, isAValidID } = require("../../utils");
+const { STATUS } = require("../../utils");
+const getArticle = require("./getArticle");
 
 async function findSingleArticle({ id, expand = "" }) {
-  if (!id) {
-    throw new AppError(
-      "For 'id': Required field id not provide",
-      STATUS.badRequest.code
-    );
-  }
-
-  if (!isAValidID(id)) {
-    throw new AppError(
-      "For 'id': This is not valid mongodb id",
-      STATUS.badRequest.code
-    );
-  }
-
   // finding the article with id
-  const article = await Article.findById(id);
+  const article = await getArticle({ id });
 
   if (!article) {
-    throw new AppError("Article not found with id" + id, STATUS.notFound.code);
+    throw new AppError("No article found with id" + id, STATUS.notFound.code);
   }
 
   expand = expand

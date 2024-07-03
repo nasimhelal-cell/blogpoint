@@ -1,9 +1,8 @@
 const articleService = require("../../../../lib/article");
 const query = require("../../../../utils/query");
 const { defaults } = require("../../../../config");
-const { STATUS } = require("../../../../utils");
+const { STATUS, catchAsync } = require("../../../../utils");
 const { AppError } = require("../../../../app/errorHandler");
-const catchAsync = require("../../../../utils/catchAsync");
 
 const getAllArticles = catchAsync(async (req, res) => {
   const page = req.query.page || defaults.page;
