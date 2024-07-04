@@ -1,6 +1,7 @@
 const { catchAsync, STATUS } = require("../../../../utils");
 const articleService = require("../../../../lib/article");
 const { AppError } = require("../../../../app/errorHandler");
+
 const deleteSingleArticle = catchAsync(async (req, res) => {
   const { id } = req.params;
 
