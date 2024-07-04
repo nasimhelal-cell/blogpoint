@@ -1,6 +1,12 @@
 const router = require("express").Router();
 const { controllers: articleController } = require("../api/v1/article");
 const { controllers: userController } = require("../api/v1/user");
+const { controllers: authController } = require('../api/v1/auth')
+
+
+// auth related routes
+
+router.route('/auth/register').post(authController.register)
 
 // article related routes
 router
@@ -18,7 +24,7 @@ router
 // user related routes
 router
   .route("/users")
-  .get(() => {})
+  .get(() => { })
   .post(userController.createUser);
 
 module.exports = router;
