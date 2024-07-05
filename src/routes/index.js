@@ -5,8 +5,8 @@ const { controllers: authController } = require('../api/v1/auth')
 
 
 // auth related routes
-
 router.route('/auth/register').post(authController.register)
+router.route('/auth/login').post(authController.login)
 
 // article related routes
 router
