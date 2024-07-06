@@ -4,6 +4,7 @@ const findAllArticles = require("./findAllArticles");
 const findSingleArticle = require("./findSingleArticle");
 const getArticle = require("./getArticle");
 const deleteArticle = require("./deleteArticle");
+const checkOwnership = require("./checkOwnership");
 
 module.exports = {
   findAllArticles,
@@ -12,4 +13,5 @@ module.exports = {
   findSingleArticle,
   getArticle,
   deleteArticle,
+  checkOwnership
 };
